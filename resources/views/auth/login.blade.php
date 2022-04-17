@@ -1,3 +1,6 @@
+@extends('master')
+<h1>Login Page</h1>
+
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
