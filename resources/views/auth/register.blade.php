@@ -1,3 +1,7 @@
+@extends('master')
+@section("content")
+<h1 style="text-align:center">Your learning journey starts here...</h1>
+
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">

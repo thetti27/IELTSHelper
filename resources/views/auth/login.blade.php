@@ -1,6 +1,6 @@
 @extends('master')
 @section("content")
-<h1>Login Page</h1>
+<h1 style="text-align:center">Let's start learning!</h1>
 
 <x-guest-layout>
     <x-auth-card>
