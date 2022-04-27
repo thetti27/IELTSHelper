@@ -47,3 +47,16 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
+use App\Http\Controllers\Admin\DashboardController;
+
+Route::middleware('auth')->group(function () {
+
+    Route::prefix('admin')->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    });
+
+});
+
+
