@@ -1,6 +1,6 @@
 import { Button, Layout, Menu, Input, Select, Upload } from 'antd';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useParams, useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 const { Header, Sider, Content } = Layout;
@@ -41,6 +42,50 @@ const Users = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggle, settoggle] = useState(false);
 
+  const [planType, setplanType] = useState('');
+  const [description, setdescription] = useState('');
+  const [amount, setamount] = useState('');
+  const [details, setdetails] = useState('');
+
+  let slug = useParams();
+  const [Data, setData] = useState('');
+  let history = useHistory();
+  useEffect(() => {
+    console.log('asas');
+    axios({
+      method: 'get',
+      url: `http://127.0.0.1:8000/api/viewPlans`,
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => {
+        setData(response.data.filter((e) => Number(e.id) === Number(slug.id)));
+        setplanType(
+          response.data.filter((e) => Number(e.id) === Number(slug.id)).planType
+        );
+        setdescription(
+          response.data.filter((e) => Number(e.id) === Number(slug.id))
+            .description
+        );
+        setamount(
+          response.data.filter((e) => Number(e.id) === Number(slug.id)).amount
+        );
+        setdetails(
+          response.data.filter((e) => Number(e.id) === Number(slug.id)).details
+        );
+      })
+      .catch((response) => {
+        //handle error
+        console.log(response);
+      });
+  }, []);
+
+  console.log(history);
+  console.log(slug);
+  useEffect(() => {
+    // let payLoad
+    // console.log(slug);
+    // console.log('slug');
+  }, []);
   const handleDelete = (e, record) => {
     // this.setState({ deleteDoctorId: record.id, deleteDoctorModal: true });
   };
@@ -82,86 +127,33 @@ const Users = (props) => {
       ),
     },
   ];
-  const [form] = Form.useForm();
-  const onGenderChange = (value) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({
-          note: 'Hi, man!',
-        });
-        return;
-
-      case 'female':
-        form.setFieldsValue({
-          note: 'Hi, lady!',
-        });
-        return;
-
-      case 'other':
-        form.setFieldsValue({
-          note: 'Hi there!',
-        });
-    }
+  // const handleChange = (e, inputs) => {
+  //   if (inputs === 'planType') {
+  //     setAllInput()
+  //   }
+  //   if (inputs === 'type') {
+  //     this.setState({
+  //       type: e.target.value,
+  //     });
+  //   }
+  // };
+  const handleUpdates = (e, record) => {
+    setplanType(record.planType);
+    setdescription(record.description);
+    setamount(record.amount);
+    setdetails(record.details);
   };
-
-  const onFinish = (values) => {
-    console.log(values);
+  const deleteDoctors = async () => {
+    await axios({
+      method: 'delete',
+      // url: `http://127.0.0.1:80/Y3S1-ITPM/Admin/Backend/deleteDoctor.php/${this.state.deleteDoctorId}`,
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => {})
+      .catch((response) => {
+        console.log(response);
+      });
   };
-
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({
-      note: 'Hello world!',
-      gender: 'male',
-    });
-  };
-  const fileList = [
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-2',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-3',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-4',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-xxx',
-      percent: 50,
-      name: 'image.png',
-      status: 'uploading',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-      uid: '-5',
-      name: 'image.png',
-      status: 'error',
-    },
-  ];
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
   return (
     <Layout>
       <Sider
@@ -260,95 +252,58 @@ const Users = (props) => {
               display: 'flex',
               alignContent: 'center',
               justifyContent: 'center',
+              flexDirection: 'column',
             }}
           >
-            <Form
-              {...layout}
-              form={form}
-              name="control-hooks"
-              onFinish={onFinish}
-            >
-              <Upload {...props}>
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
-              </Upload>
-              <Form.Item
-                name="PLAN"
-                label="PLAN"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
+            Plan
+            <br />
+            <Input
+              value={planType}
+              onChange={(e) => setplanType(e.target.value)}
+            ></Input>
+            Description
+            <br />
+            <Input
+              value={description}
+              onChange={(e) => setdescription(e.target.value)}
+            ></Input>
+            Amount
+            <br />
+            <Input
+              value={amount}
+              onChange={(e) => setamount(e.target.value)}
+            ></Input>
+            Details
+            <br />
+            <Input
+              value={details}
+              onChange={(e) => setdetails(e.target.value)}
+            ></Input>
+            <br />
+            <br />
+            <>
+              <Button
+                onClick={(e) => handleUpdate(e)}
+                style={{
+                  background: '#001529',
+                  borderColor: '#001529',
+                  color: '#ffffff',
+                }}
               >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="DESCRIPTION"
-                label="DESCRIPTION"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
+                <EditOutlined /> {'Update'}
+              </Button>{' '}
+              &ensp;
+              <Button
+                onClick={(e) => handleDelete(e)}
+                style={{
+                  background: 'red',
+                  borderColor: '#001529',
+                  color: '#ffffff',
+                }}
               >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="AMOUNT"
-                label="AMOUNT"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                name="DETAILS"
-                label="DETAILS"
-                rules={[
-                  {
-                    required: true,
-                  },
-                ]}
-              >
-                <Input.TextArea />
-              </Form.Item>
-              <Form.Item
-                noStyle
-                shouldUpdate={(prevValues, currentValues) =>
-                  prevValues.gender !== currentValues.gender
-                }
-              >
-                {({ getFieldValue }) =>
-                  getFieldValue('gender') === 'other' ? (
-                    <Form.Item
-                      name="customizeGender"
-                      label="Customize Gender"
-                      rules={[
-                        {
-                          required: true,
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  ) : null
-                }
-              </Form.Item>
-              <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-                <Button htmlType="button" onClick={onReset}>
-                  Reset
-                </Button>
-                <Button type="link" htmlType="button" onClick={onFill}>
-                  Fill form
-                </Button>
-              </Form.Item>
-            </Form>
+                <DeleteOutlined /> {'Delete'}
+              </Button>
+            </>
           </div>
         </Content>
       </Layout>

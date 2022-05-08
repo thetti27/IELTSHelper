@@ -1,6 +1,6 @@
 import { Button, Layout, Menu, Input, Select, Upload } from 'antd';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -19,8 +19,10 @@ import {
 } from '@ant-design/icons';
 import { Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 import { Card, Col, Row } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 const { Search } = Input;
@@ -43,12 +45,36 @@ const tailLayout = {
 const Users = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggle, settoggle] = useState(false);
+  const [Data, setData] = useState(false);
+  let history = useHistory();
 
+  useEffect(() => {
+    // let payLoad
+    console.log('lo');
+    axios({
+      method: 'get',
+      url: 'http://127.0.0.1:8000/api/viewPlans',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((response) => {
+        setData(response.data);
+        console.log('ol', response.data);
+      })
+      .catch((response) => {
+        //handle error
+        console.log(response);
+      });
+  }, []);
   const handleDelete = (e, record) => {
     // this.setState({ deleteDoctorId: record.id, deleteDoctorModal: true });
   };
 
-  const handleUpdate = (e, record) => {};
+  const handleUpdate = (e, item) => {
+    console.log(e.id);
+    history.push(`/editplan/${e.id}`);
+    window.location.href = `/editplan/${e.id}`;
+    // window.location.href('/');
+  };
   const columns = [
     {
       title: 'Name',
@@ -86,41 +112,7 @@ const Users = (props) => {
     },
   ];
   const [form] = Form.useForm();
-  const onGenderChange = (value) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({
-          note: 'Hi, man!',
-        });
-        return;
 
-      case 'female':
-        form.setFieldsValue({
-          note: 'Hi, lady!',
-        });
-        return;
-
-      case 'other':
-        form.setFieldsValue({
-          note: 'Hi there!',
-        });
-    }
-  };
-
-  const onFinish = (values) => {
-    console.log(values);
-  };
-
-  const onReset = () => {
-    form.resetFields();
-  };
-
-  const onFill = () => {
-    form.setFieldsValue({
-      note: 'Hello world!',
-      gender: 'male',
-    });
-  };
   const fileList = [
     {
       uid: '-1',
@@ -258,6 +250,19 @@ const Users = (props) => {
             minHeight: 280,
           }}
         >
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              style={{
+                background: '#001529',
+                borderColor: '#001529',
+                color: '#ffffff',
+              }}
+              onClick={() => (window.location.href = `/addplan`)}
+            >
+              <Link to="/addplan">Add Plan</Link>
+            </Button>
+          </div>
+
           <div
             className="site-layout-background"
             style={{
@@ -269,23 +274,43 @@ const Users = (props) => {
               justifyContent: 'space-around',
             }}
           >
-            <Card
-              hoverable
-              style={{ width: 240 }}
-              cover={
-                <img
-                  alt="example"
-                  src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-                />
-              }
-            >
-              <Meta
-                title="Europe Street beat"
-                description="www.instagram.com"
-              />
-              <Button>Update</Button>
-              <Button style={{ marginLeft: '20px' }}> Delete</Button>
-            </Card>{' '}
+            {Data &&
+              Data.length > 0 &&
+              Data.map((item) => (
+                <Card
+                  hoverable
+                  style={{ width: 240 }}
+                  cover={
+                    <img
+                      alt="example"
+                      src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+                    />
+                  }
+                >
+                  <Meta title={item.planType} description={item.description} />
+                  <Button
+                    onClick={() => handleUpdate(item)}
+                    style={{
+                      background: 'green',
+                      borderColor: '#001529',
+                      color: '#ffffff',
+                    }}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    style={{
+                      background: 'red',
+                      borderColor: '#001529',
+                      color: '#ffffff',
+                      marginLeft: '20px',
+                    }}
+                  >
+                    {' '}
+                    Delete
+                  </Button>
+                </Card>
+              ))}
           </div>
         </Content>
       </Layout>

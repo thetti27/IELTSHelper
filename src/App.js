@@ -6,6 +6,7 @@ import Users from './users';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Appbar from './appbar';
 import Casual from './casual';
+import Payment from './payment';
 
 class Navigation extends React.Component {
   render() {
@@ -24,14 +25,17 @@ class Navigation extends React.Component {
           {/* <Route exact path="/editplan/:id">
             <EditPlan />
           </Route> */}
-          <Route exact path="/users">
+          {/* <Route exact path="/users">
             <Users />
-          </Route>
+          </Route> */}
           <Route exact path="/">
             <Appbar />
           </Route>
           <Route exact path="/casual">
             <Casual />
+          </Route>
+          <Route exact path="/payment">
+            <Payment />
           </Route>
         </Switch>
       </Router>

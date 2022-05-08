@@ -1,6 +1,6 @@
 import { Button, Layout, Menu, Input, Select, Upload } from 'antd';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -19,6 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Form } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 const { Search } = Input;
 const { Header, Sider, Content } = Layout;
@@ -41,68 +42,19 @@ const Users = (props) => {
   const [collapsed, setCollapsed] = useState(false);
   const [toggle, settoggle] = useState(false);
 
+  // let payload = {
+  //   name: name,
+  //   image: image,
+  //   Type: type,
+
+  // };
   const handleDelete = (e, record) => {
     // this.setState({ deleteDoctorId: record.id, deleteDoctorModal: true });
   };
 
   const handleUpdate = (e, record) => {};
-  const columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      responsive: ['md'],
-      render: (text, record) => (
-        <img src={record.image} style={{ width: '100px', width: '100px' }} />
-      ),
-    },
-    {
-      title: 'Type',
-      dataIndex: 'Type',
-      key: 'Type',
-      responsive: ['lg'],
-    },
-    {
-      title: 'Actions',
-      render: (text, record) => (
-        <>
-          <Button onClick={(e) => handleUpdate(e, record)}>
-            <EditOutlined /> {'Update'}
-          </Button>{' '}
-          &ensp;
-          <Button onClick={(e) => handleDelete(e, record)}>
-            <DeleteOutlined /> {'Delete'}
-          </Button>
-        </>
-      ),
-    },
-  ];
+
   const [form] = Form.useForm();
-  const onGenderChange = (value) => {
-    switch (value) {
-      case 'male':
-        form.setFieldsValue({
-          note: 'Hi, man!',
-        });
-        return;
-
-      case 'female':
-        form.setFieldsValue({
-          note: 'Hi, lady!',
-        });
-        return;
-
-      case 'other':
-        form.setFieldsValue({
-          note: 'Hi there!',
-        });
-    }
-  };
 
   const onFinish = (values) => {
     console.log(values);
@@ -343,9 +295,6 @@ const Users = (props) => {
                 </Button>
                 <Button htmlType="button" onClick={onReset}>
                   Reset
-                </Button>
-                <Button type="link" htmlType="button" onClick={onFill}>
-                  Fill form
                 </Button>
               </Form.Item>
             </Form>
