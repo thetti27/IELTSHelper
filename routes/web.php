@@ -33,6 +33,7 @@ Route::get('/about-us', function () {
     return view('pages.about-us');
 })->name('about-us');
 
+
 //Route for Contact us page
 Route::get('/contact-us', function () {
     return view('pages.contact-us');
@@ -47,20 +48,3 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-//Routes for all pages from homepage
-
-/*
-
-
-Route::get('/about-us', function () {
-    return view('about-us');
-});
-
-Route::get('/FAQ', function () {
-    return view('FAQ');
-});
-
-Route::get('/contact-us', function () {
-    return view('contact-us');
-});
-*/
