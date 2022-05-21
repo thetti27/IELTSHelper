@@ -40,7 +40,7 @@
                 <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
 
 
-                    <h1 style="text-align:center">Welcome to IELTS Helper!</h1>
+                    <h1 style="text-align:center">Welcome to IELTS Helper! </h1>
 
                     <svg viewBox="0 0 651 192" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-16 w-auto text-gray-700 sm:h-20">
                         <g clip-path="url(#clip0)" fill="#EF3B2D">
@@ -59,11 +59,11 @@
                                 <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Resources</a></div>
                             </div>
 
-                        <!--<div class="ml-12">
+                        <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
 
                         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
