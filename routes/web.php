@@ -33,11 +33,12 @@ Route::get('/about-us', function () {
     return view('pages.about-us');
 })->name('about-us');
 
+/*
 //Route for Contact us page
 Route::get('/contact-us', function () {
     return view('pages.contact-us');
 })->name('contact-us');
-
+*/
 
 
 Route::get('/dashboard', function () {
