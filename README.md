@@ -18,7 +18,7 @@ Once you have set up Composer and WSL and you have to install PHP and ensure tha
 
 To clone this in your local repository run the command. 
 
-git clone 
+git clone https://github.com/thetti27/IELTSHelper.git
 
 ## Laravel Sponsors
 
