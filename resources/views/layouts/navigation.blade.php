@@ -47,6 +47,14 @@
                     </x-nav-link>
                 </div>
 
+                <!--Students Centre -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('student.index')" :active="request()->routeIs('student.index')">
+                        {{ __('Students Centre') }}
+                    </x-nav-link>
+                </div>
+
+
             </div>
 
             <!-- Settings Dropdown -->

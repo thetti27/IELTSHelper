@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//Route for Student page
+Route::resource("/student", StudentController::class);
 
 
 //Route for pricing page
@@ -33,11 +37,12 @@ Route::get('/about-us', function () {
     return view('pages.about-us');
 })->name('about-us');
 
-
 //Route for Contact us page
 Route::get('/contact-us', function () {
     return view('pages.contact-us');
 })->name('contact-us');
+
+
 
 
 
