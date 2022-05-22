@@ -14,7 +14,11 @@ IELTS Helper is a Laravel a web application to connect English language learners
 
 ## Config and Setup
 
-Once you have set up Composer and WSL and adding 
+Once you have set up Composer and WSL and you have to install PHP and ensure that you are running Laravel 9 in order to run this project. 
+
+To clone this in your local repository run the command. 
+
+git clone 
 
 ## Laravel Sponsors
 
